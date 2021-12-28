@@ -314,3 +314,84 @@ function foo() {
 }
 foo.call({name:'tom'})
 ```
+
+6. 面试题
+
+1. 
+```js
+var x = 10;
+var obj = {
+    x: 20,
+    f: function(){
+        console.log(this.x);        // ?
+        var foo = function(){ 
+            console.log(this.x);    
+        }
+        foo();                      // ?
+    }
+};
+obj.f();
+```
+
+答案 20 10
+
+2. 
+```js
+function foo(arg){
+    this.a = arg;
+    return this
+};
+
+var a = foo(1);
+var b = foo(10);
+
+console.log(a.a);    // ?
+console.log(b.a);    // ?
+```
+
+答案 ： undefined 10
+
+3.
+```js
+var x = 10;
+var obj = {
+    x: 20,
+    f: function(){ console.log(this.x); }
+};
+var bar = obj.f;
+var obj2 = {
+    x: 30,
+    f: obj.f
+}
+obj.f();
+bar();
+obj2.f();
+```
+
+答案：20 10 30
+
+4.
+```js
+function foo() {
+    getName = function () { console.log (1); };
+    return this;
+}
+foo.getName = function () { console.log(2);};
+foo.prototype.getName = function () { console.log(3);};
+var getName = function () { console.log(4);};
+function getName () { console.log(5);}
+ 
+foo.getName();                // ?
+getName();                    // ?
+foo().getName();              // ?
+getName();                    // ?
+new foo.getName();            // ?
+new foo().getName();          // ?
+new new foo().getName();      // ?
+```
+
+答案：2 4 1 1 2 3 3
+
+问题出处链接
+
+https://segmentfault.com/a/1190000011194676
